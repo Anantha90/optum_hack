@@ -1,6 +1,8 @@
 import Doctor from "../models/Doctor.js";
+import Patient from "../models/Patient.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+
 // Register New Doctor
 const register = async (req, res) => {
   try {
@@ -117,9 +119,12 @@ const DoctorFetch = async (req,res,next)=>{
 
 
 try{
+// Get Patient
+// const NewPatient = await Patient.findById({_id:req.body.id});
 
-  var latitude=req.body.latitude;
-  var longitude=req.body.longitude;
+
+  let latitude=req.body.latitude;
+  let longitude=req.body.longitude;
 const Newdoctor = await Doctor.find({
 
   Location:{
@@ -129,12 +134,17 @@ const Newdoctor = await Doctor.find({
         type:"Point",
         coordinates:[ parseFloat(longitude),parseFloat(latitude)]
       },
-      $maxDistance : (10)*1609
+      $maxDistance : (10)*1609,
+      
     }
   },
-  Upvotes:{$gt:30}
+  Upvotes:{$gt:30},
+  // Problems:{$all:[NewPatient?.Problems[0],NewPatient?.Problems[1],NewPatient?.Problems[2]]}
 });
 
+console.log(req.rootPatient);
+
+// res.send(req.rootPatient);
 res.status(200).json(Newdoctor);
 }
 
