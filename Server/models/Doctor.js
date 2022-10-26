@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Geocoder from "../utils/geocode.js";
-
+import jwt from "jsonwebtoken";
 const DoctorSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -63,6 +63,16 @@ const DoctorSchema = new mongoose.Schema({
     type: Number,
     min: 0,
   },
+  
+  // tokens:[
+  //   {
+
+  //     token:{
+  //       type:String,
+  //       required:true
+  //     }
+  //   }
+  // ]
 });
 
 DoctorSchema.index({ Location: "2dsphere" });

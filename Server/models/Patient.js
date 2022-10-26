@@ -47,6 +47,7 @@ const PatientSchema = new mongoose.Schema({
     }
   ]
 });
+
 PatientSchema.methods.generateAuthToken = async function(){
 
   try{

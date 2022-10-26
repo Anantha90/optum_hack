@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import Patient from "../models/Patient.js";
-
 const VerifyToken = async (req,res,next)=>{
 
     try{
 
 const token = req.cookies.AccessToken;
 const verifytoken = jwt.verify(token,"kfknpadfoeovnqov");
+
 const rootPatient = await Patient.findOne({_id:verifytoken._id,"tokens.token":token });
 
 if(!rootPatient){
@@ -20,11 +20,13 @@ next();
 
     }
     catch(err){
-        res.status(401).send("You Are Unauthorized:NO token Found");
+        res.status(401).send("You Are Unauthorized:No Token Found");
         console.log(err);
         
     }
 
 };
+
+
 
 export default VerifyToken;

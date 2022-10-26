@@ -44,13 +44,17 @@ const login = async(req,res,next)=>{
 if(!passcrct){
     res.status(500).json({message:"INVALID CREDENTIALS"});
 }
+  else{
+
+// const token = await ExistingDoctor.generateAuthToken();
   
-  const token = jwt.sign({id:ExistingDoctor?._id},"adiilmnvbh")
-  
-  const { Password , ...OtherDetails} = ExistingDoctor._doc;
-  res.cookie("AccessToken",token,{
-    httpOnly:true
-  }).status(200).json({...OtherDetails});
+
+//   res.cookie("AccessToken",token,{
+//     httpOnly:true,
+//     expires:new Date(Date.now()+2589200000)
+//   }).status(200).json(ExistingDoctor);
+res.status(200).json(ExistingDoctor);
+}
   }
   catch(err){
       next(err);
@@ -150,7 +154,8 @@ res.status(200).json(Newdoctor);
 
 catch(err){
 
-  throw err;
+throw err;
+
 }
 
 }
