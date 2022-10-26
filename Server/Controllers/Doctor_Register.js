@@ -124,7 +124,7 @@ const DoctorFetch = async (req,res,next)=>{
 
 try{
 // Get Patient
-// const NewPatient = await Patient.findById({_id:req.body.id});
+const NewPatient = req.rootPatient;
 
 
   let latitude=req.body.latitude;
@@ -143,10 +143,10 @@ const Newdoctor = await Doctor.find({
     }
   },
   Upvotes:{$gt:30},
-  // Problems:{$all:[NewPatient?.Problems[0],NewPatient?.Problems[1],NewPatient?.Problems[2]]}
+  Problems:{$all:[NewPatient?.Problems[0],NewPatient?.Problems[1],NewPatient?.Problems[2]]}
 });
 
-console.log(req.rootPatient);
+
 
 // res.send(req.rootPatient);
 res.status(200).json(Newdoctor);
