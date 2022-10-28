@@ -2,7 +2,7 @@ import Doctor from "../models/Doctor.js";
 import Patient from "../models/Patient.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-
+import nodemailer from "nodemailer";
 // Register New Doctor
 const register = async (req, res) => {
   try {
@@ -46,15 +46,15 @@ if(!passcrct){
 }
   else{
 
-// const token = await ExistingDoctor.generateAuthToken();
-  
+ const token = await ExistingDoctor.generateAuthToken();
+    
+ res.cookie("DoctorToken",token,{
+    httpOnly:true,
+    expires:new Date(Date.now()+2589200000)
+  }).status(200).json(ExistingDoctor);
 
-//   res.cookie("AccessToken",token,{
-//     httpOnly:true,
-//     expires:new Date(Date.now()+2589200000)
-//   }).status(200).json(ExistingDoctor);
-res.status(200).json(ExistingDoctor);
 }
+
   }
   catch(err){
       next(err);
@@ -126,7 +126,6 @@ try{
 // Get Patient
 const NewPatient = req.rootPatient;
 
-
   let latitude=req.body.latitude;
   let longitude=req.body.longitude;
 const Newdoctor = await Doctor.find({
@@ -148,7 +147,10 @@ const Newdoctor = await Doctor.find({
 
 
 
-// res.send(req.rootPatient);
+
+
+// console.log(NewPatient);
+
 res.status(200).json(Newdoctor);
 }
 
@@ -163,4 +165,60 @@ const Send = async (req, res) => {
   res.send("YEHA PE DOCTOR REGISTRATION FORM HOGAAA");
 };
 
-export default { register, Send ,update,GetDoctor,DoctorFetch,login};
+const mailer = async(req,res,next)=>{
+
+  try{
+    const NewPatient = req.rootPatient;
+    const NewDoctor = await Doctor.findById(req.params.id);
+    console.log(NewDoctor.Email);
+const output = `
+<p>You Got a New Patient</p>
+
+<h3>Hey This is a New Patient </h3>
+<ul>
+<li>Name:${NewPatient.Name}</li>
+<li>Email:${NewPatient.Email}</li>
+<li>Contact:${NewPatient.Contact}</li>
+<li>Problems:${NewPatient.Problems}</li>
+<li>Address:${NewPatient.Address}</li>
+</ul>
+
+
+
+
+`;
+const msg = {
+    from:"test11112221@gmail.com",
+    to:NewDoctor.Email,
+subject:"nodemailer testing",
+    html:output
+};
+
+nodemailer.createTransport({
+    service:'gmail',
+    auth:{
+        user:"test11112221@gmail.com",
+        pass:"gndggxukfgsbeijo"
+    },
+    port:465,
+    host:'smtp.gmail.com'
+}).sendMail(msg,(err)=>{
+    if(err){
+        console.log(err);
+        
+    }
+    else{
+        console.log("Mail sent Succesfully");
+        res.status(200).send("Correct Response");
+        
+    }
+})
+  
+
+  }
+  catch(err){
+
+throw err;
+  }
+}
+export default { register, Send ,update,GetDoctor,DoctorFetch,login,mailer};

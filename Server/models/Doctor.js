@@ -46,7 +46,8 @@ const DoctorSchema = new mongoose.Schema({
 
   Location: {
     type: { type: String ,
-    enum: ['point']},
+    enum: ['Point']},
+    required: false,
     coordinates: {
       type:[Number],
       index:'2dsphere'
@@ -64,16 +65,19 @@ const DoctorSchema = new mongoose.Schema({
     min: 0,
   },
   
-  // tokens:[
-  //   {
+  tokens:[
+    {
 
-  //     token:{
-  //       type:String,
-  //       required:true
-  //     }
-  //   }
-  // ]
+      token:{
+        type:String,
+        required:true
+      }
+    }
+  ]
 });
+
+
+
 
 DoctorSchema.index({ Location: "2dsphere" });
 
@@ -86,9 +90,22 @@ DoctorSchema.pre('save',async function(next){
   type:'Point',
   coordinates: [loc[0].longitude,loc[0].latitude]
  }
-  this.Address = undefined;
+  // this.Address = undefined;
   this.Upvotes = 0;
   next();
 })
+
+DoctorSchema.methods.generateAuthToken = async function(){
+
+  try{
+let token = jwt.sign({_id:this._id},"asadddsdsddsdsd");
+this.tokens = this.tokens.concat({token:token});
+await this.save();
+return token;
+  }
+  catch(err){
+
+    throw err;
+}};
 const Doctor = mongoose.model("Doctor", DoctorSchema);
 export default Doctor;

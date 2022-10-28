@@ -1,13 +1,17 @@
 import Patient from "../models/Patient.js";
+import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 const Register = async (req, res, next) => {
   try {
 
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.Password,salt);
-
+    const salt = await bcrypt.genSaltSync(10);
+    const hash = await bcrypt.hashSync(req.body.Password,salt);
+const Alreadypatient = await Patient.findOne({Email:req.body.Email});
+if(Alreadypatient){
+  res.status(400).send("Already Patient Created");
+}
+else{
     const NewPatient = new Patient({
       Name:req.body.Name,
       Email:req.body.Email,
@@ -18,7 +22,7 @@ const Register = async (req, res, next) => {
       Problems:req.body.Problems});
     const savedPatient =  await NewPatient.save();
     res.status(200).json(savedPatient);
-
+    }
   } catch (err) {
     next(err);
   }
@@ -27,7 +31,7 @@ const Register = async (req, res, next) => {
 const login = async(req,res,next)=>{
 
 try{
-const ExistingPatient = await Patient.findOne({Email:req.body.Email});
+const ExistingPatient = await Patient.findOne({Email:req.body.Email}).select("+Password");
 if(!ExistingPatient){
     res.status(500).json({message:"PATIENT NOT FOUND"});
 
@@ -50,5 +54,6 @@ catch(err){
     next(err);
 }
 }
+
 
 export default {Register,login};

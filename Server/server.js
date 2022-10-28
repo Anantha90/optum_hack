@@ -8,6 +8,7 @@ import connect from './config/database.js';
 import cookieParser from 'cookie-parser';
 app.use(cookieParser());
 app.use(express.json());
+
 app.use('/Patient',PatientRoute);
 app.use('/Doctor',DoctorRoute);
 app.use('/Feedback',FeedbackRoute);

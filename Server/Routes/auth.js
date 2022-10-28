@@ -8,5 +8,8 @@ router.post("/Register",Patient.Register);
 // Patient Login
 router.post("/Login",Patient.login);
 
+// Send Patient Mail to Doctor
+
+
 export default router;
 
