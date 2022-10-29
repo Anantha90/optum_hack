@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import Geocoder from "../utils/geocode.js";
 const PatientSchema = new mongoose.Schema({
   Name: {
     type: String,
@@ -33,6 +34,16 @@ const PatientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  Location: {
+    type: { type: String ,
+    enum: ['Point']},
+    required: false,
+    coordinates: {
+      type:[Number],
+      index:'2dsphere'
+    },
+    formattedAddress: String
+  },
   Problems: {
     type: [String],
     require: true,
@@ -48,6 +59,21 @@ const PatientSchema = new mongoose.Schema({
   ]
 });
 
+PatientSchema.index({ Location: "2dsphere" });
+
+PatientSchema.pre('save',async function(next){
+
+
+  const loc = await Geocoder.geocode(this.Address);
+ this.Location = {
+
+  type:'Point',
+  coordinates: [loc[0].longitude,loc[0].latitude]
+ }
+  // this.Address = undefined;
+  next();
+})
+
 PatientSchema.methods.generateAuthToken = async function(){
 
   try{
@@ -57,7 +83,7 @@ await this.save();
 return token;
   }
   catch(err){
-
+throw err;
     
 
   }

@@ -126,8 +126,9 @@ try{
 // Get Patient
 const NewPatient = req.rootPatient;
 
-  let latitude=req.body.latitude;
-  let longitude=req.body.longitude;
+  let latitude=NewPatient.Location.coordinates[1];
+  let longitude=NewPatient.Location.coordinates[0];
+
 const Newdoctor = await Doctor.find({
 
   Location:{
@@ -149,7 +150,7 @@ const Newdoctor = await Doctor.find({
 
 
 
-// console.log(NewPatient);
+// console.log(NewPatient.Location.coordinates[0]);
 
 res.status(200).json(Newdoctor);
 }
