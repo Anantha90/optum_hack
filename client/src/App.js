@@ -6,6 +6,8 @@ import PatientLogin from "./components/PatientLogin";
 import PatientRegister from "./components/PatientRegister";
 import Navbar from "./components/Navbar";
 import Patient from "./components/Patient";
+import Appointment from "./components/Appointment";
+import Feedback from "./components/Feedback";
 
 export function App() {
   return (
@@ -18,6 +20,8 @@ export function App() {
         <Route path="/doctor/login" element={<DoctorLogin />} />
         <Route path="/patient/register" element={<PatientRegister />} />
         <Route path="/patient/login" element={<PatientLogin />} />
+        <Route path="/appointment/:id" element = {<Appointment/>} />
+        <Route path="/feedback/:id" element = {<Feedback/>} />
       </Routes>
     </>
   )

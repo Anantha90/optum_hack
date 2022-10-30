@@ -1,6 +1,6 @@
 import Doctor from "../models/Doctor.js";
 import Patient from "../models/Patient.js";
-import Token from "../utils/Jwt.js";  
+import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import nodemailer from "nodemailer";
 // Register New Doctor
@@ -121,14 +121,19 @@ const GetDoctor = async(req,res,next)=>{
 
 const DoctorFetch = async (req,res,next)=>{
 
-console.log(req.body);
+
 try{
 // Get Patient
 const NewPatient = req.rootPatient;
 
-  let latitude=req.body.latitude;
-  let longitude=req.body.longitude;
+  // let latitude=NewPatient.Location.coordinates[1];
+  // let longitude=NewPatient.Location.coordinates[0];
+  let latitude = "28.7403029";
+  let longitude = "77.1127616";
+
+
 const Newdoctor = await Doctor.find({
+
   Location:{
     $near:{
 
@@ -136,19 +141,19 @@ const Newdoctor = await Doctor.find({
         type:"Point",
         coordinates:[ parseFloat(longitude),parseFloat(latitude)]
       },
-      $maxDistance : (10)*1609,
+      $maxDistance : (10)*160000,
       
     }
   },
   Upvotes:{$gt:30},
-  Problems:{$all:[NewPatient?.Problems[0],NewPatient?.Problems[1],NewPatient?.Problems[2]]}
+  Problems:{$all:["Cough", "Fever", "Psychiatrist", "Bone Problems"]}
 });
 
 
 
 
 
-// console.log(NewPatient);
+// console.log(NewPatient.Location.coordinates[0]);
 
 res.status(200).json(Newdoctor);
 }
@@ -165,14 +170,14 @@ const Send = async (req, res) => {
 };
 
 const mailer = async(req,res,next)=>{
-
+  console.log(req.body.patientInfo);
   try{
-    const NewPatient = req.rootPatient;
+    const NewPatient = req.body.patientInfo;
+    console.log(NewPatient);
     const NewDoctor = await Doctor.findById(req.params.id);
     console.log(NewDoctor.Email);
 const output = `
 <p>You Got a New Patient</p>
-
 <h3>Hey This is a New Patient </h3>
 <ul>
 <li>Name:${NewPatient.Name}</li>
@@ -181,10 +186,6 @@ const output = `
 <li>Problems:${NewPatient.Problems}</li>
 <li>Address:${NewPatient.Address}</li>
 </ul>
-
-
-
-
 `;
 const msg = {
     from:"test11112221@gmail.com",

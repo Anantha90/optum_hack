@@ -4,7 +4,7 @@ import Token from "../utils/Jwt.js";
 const router = express.Router();
 
 // Doctor Fetch by Id
-router.get("/:id",Token.VerifyToken,Doctor.GetDoctor);
+router.get("/:id",Doctor.GetDoctor);
 
 // Doctor Update by Id
 router.put("/:id",Doctor.update);
@@ -15,12 +15,12 @@ router.post("/Register",Doctor.register);
 // Doctor Login
 router.post("/Login", Doctor.login);
 
-router.post("/Appointment/:id",Token.VerifyToken,Doctor.mailer);
+router.post("/Appointment/:id",Doctor.mailer);
 
 // SAME FEATURE GETTING NEAREST DOCTOR but POST ROUTE using AGGREGATION
 // router.post("/Location",VerifyToken, Doctor.FindDoctor);
 
 // Appointment Route (Get Doctor Based on nearest Location , Maximum Upvotes and Patient Past Problems) - GET ROUTE
-router.get("/api/Fetch",Token.VerifyToken, Doctor.DoctorFetch);
+router.get("/api/Fetch", Doctor.DoctorFetch);
 export default router;
 
