@@ -3,7 +3,6 @@ import Doctor from "../models/Doctor.js";
 import Patient from "../models/Patient.js";
 const PostFeedback = async(req,res,next)=>{
 
-try{
 
     // Doctor Available 
 //     const Vote = req.body.Vote;
@@ -32,8 +31,10 @@ try{
 //      )
 // }
 
+// console.log(req.body);
 
-    const Patient = req.rootPatient;
+try{
+    const Patient = req.body.patientInfo;
     // const Vote = req.body.Upvote;
 const feedback = new Feedback({
 

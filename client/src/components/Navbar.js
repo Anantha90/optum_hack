@@ -1,18 +1,32 @@
 import React from 'react'
-
+import "./Navbar.css";
+import Newlogo from "../Images/Newlogo.png";
+import Phone from "../Images/phone-call.png";
+import Email from "../Images/email.png";
 const Navbar = () => {
   return (
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-        <strong>Album</strong>
-      </a>
-      <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    </div>
+   <>
+   <div className="Top">
+<div className="left">
+  <div className="img">
+<img src={Newlogo} alt="Newlogo.png" />
+<h2>MediClub</h2>
   </div>
+</div>
+<div className="right">
+  <div className="phone">
+    <img src={Phone} alt="" />
+    <p>8448910995</p>
+  </div>
+  <div className="email">
+  <img src={Email} alt="" />
+  <p>Choudharyr976@gmail.com</p>
+  </div>
+</div>
+
+   </div>
+   
+   </>
   )
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { json, Navigate } from 'react-router-dom';
-
+import { json, Link, Navigate } from 'react-router-dom';
+import "./Doctor.css";
 const DoctorLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -37,6 +37,8 @@ const DoctorLogin = () => {
             </div>
             <input type="submit" className="btn btn-primary" value = "Login"/>
             </form>
+
+           <Link to="/doctor/register"><button className='New_btn'>New Here?</button></Link> 
         </div>
     )
 }

@@ -1,20 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import Doctorimg from "../Images/Left-img.png";
+import CardPatient from "../Images/Patient.png";
+import CardDoctor from "../Images/Doctor.png";
+import "./Homepage.css";
 const Homepage = () => {
   return (
-    <section class="py-5 text-center container">
-    <div class="row py-lg-5">
-      <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light">Welcome to MediClub</h1>
-        <p class="lead text-muted">Are you a patient or a doctor?</p>
-        <p>
-          <Link to="/Doctor/Register"><a href="#" class="btn btn-lg btn-warning my-2 mx-1">Doctor</a></Link>
-          <Link to="/Patient/Register"><a href="#" class="btn btn-lg btn-success my-2 mx-1">Patient</a></Link>
-        </p>
-      </div>
+<div className="Main">
+<div className="Left">
+  <div className="Doctor_img">
+    <img src={Doctorimg} alt="Doctor.png" />
+  </div>
+</div>
+<div className="Right">
+  <h1>Welcome to <span>MediClub</span></h1>
+  <p>Login As :</p>
+  <div className="Cards">
+    <div className="New">
+    <Link to="/Doctor/Login"> <div className="left_card">
+     <img src={CardDoctor} alt="" />
+      <p>Doctor</p>
+    </div></Link>
+    <Link to="/Patient/Login"> <div className="right_card">
+   <img src={CardPatient} alt="" />
+    <p>Patient</p>
+    </div></Link>
     </div>
-  </section>
+  </div>
+</div>
+</div>
   )
 }
 

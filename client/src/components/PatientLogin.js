@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
-
+import { Navigate,Link } from 'react-router-dom';
+import "./Patient.css";
 const PatientLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -38,6 +38,8 @@ const PatientLogin = () => {
             </div>
             <input type="submit" className="btn btn-primary" value = "Login"/>
             </form>
+
+            <Link to="/patient/register"><button className='New_btn'>New Here?</button></Link> 
         </div>
     )
 }
